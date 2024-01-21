@@ -1,0 +1,10 @@
+.calculatorDisplayContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 2rem;
+  padding: 0.5rem;
+  border: 1px solid #808080;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
