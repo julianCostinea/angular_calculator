@@ -6,4 +6,10 @@
   font-size: 1.5rem;
   padding: 1rem 1.5rem;
   width: 100%;
+  opacity: 0.9;
+}
+
+.operatorKey:hover {
+  opacity: 1;
+  cursor: pointer;
 }

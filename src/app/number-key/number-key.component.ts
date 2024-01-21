@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { CalculatorService } from '../services/calculator.service';
 
 @Component({
   selector: 'app-number-key',
@@ -8,6 +9,12 @@ import { Component, Input } from '@angular/core';
   styleUrl: './number-key.component.css',
 })
 export class NumberKeyComponent {
+  constructor(private calculatorService: CalculatorService) {}
+
+  addKey(keyValue?: string): void {
+    this.calculatorService.addNumberToCurrentCalculation(keyValue);
+  }
+
   @Input() keyValue?: string;
   @Input() bottomRow?: boolean;
 }

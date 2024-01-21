@@ -1,7 +1,7 @@
 <div class="mainKeysContainer">
   <div *ngFor="let i of numRows" class="keyRow">
     <div *ngFor="let key of keys.slice(i * 3, 3 * i + 3)">
-      <app-number-key [keyValue]="key"></app-number-key>
+      <app-number-key [keyValue]="key"> </app-number-key>
     </div>
   </div>
   <div class="keyRow">
@@ -9,7 +9,7 @@
       <app-number-key [keyValue]="'0'" [bottomRow]="true"> </app-number-key>
     </div>
     <div class="bottomRowNumberKey">
-      <app-number-key [keyValue]="'.'" [bottomRow]="true"> </app-number-key>
+      <app-number-key [keyValue]="','" [bottomRow]="true"> </app-number-key>
     </div>
   </div>
   <div class="keyRow">

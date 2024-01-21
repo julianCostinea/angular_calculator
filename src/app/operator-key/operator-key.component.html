@@ -1,3 +1,7 @@
-<button class="operatorKey" [class.bottomKey]="bottomRow">
+<button
+  class="operatorKey"
+  [class.bottomKey]="bottomRow"
+  (click)="addKey(keyValue)"
+>
   {{ keyValue }}
 </button>

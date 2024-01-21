@@ -1,1 +1,10 @@
-<div class="calculatorDisplayContainer">555</div>
+<div class="calculatorDisplayContainer">
+  <div class="currentCalculation">{{ currentCalculation }}</div>
+  <div
+    class="calculatorResult"
+    [ngClass]="calculatorResult > 0 ? 'positiveResult' : 'negativeResult'"
+    [class.isZero]="calculatorResult === 0"
+  >
+    {{ calculatorResult === 0 ? "" : calculatorResult }}
+  </div>
+</div>
