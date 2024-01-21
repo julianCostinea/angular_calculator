@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { sideKeys } from '../helpers/keys';
 
 @Injectable({
   providedIn: 'root',
@@ -120,7 +119,6 @@ export class CalculatorService {
     this.pressedEquals = false;
     this.pressedOperator = true;
     this.currentCalculation += operator;
-    //going this way to solve adding decimals
     this.numberToOperate = '';
   }
 
