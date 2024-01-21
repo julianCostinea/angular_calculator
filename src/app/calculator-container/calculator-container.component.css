@@ -1,5 +1,8 @@
 .calculatorContainer {
-  width: fit-content;
+  /* use fixed with to prevent display overflow */
+  /* width: fit-content; */
+  width: 290px;
+  overflow: hidden;
   padding: 1rem;
   border: 1px solid #808080;
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NumberKeyComponent } from '../number-key/number-key.component';
 import { NgFor } from '@angular/common';
 import { OperatorKeyComponent } from '../operator-key/operator-key.component';
+import { mainKeys } from '../helpers/keys';
 
 @Component({
   selector: 'app-main-keys',
@@ -11,6 +12,6 @@ import { OperatorKeyComponent } from '../operator-key/operator-key.component';
   imports: [NumberKeyComponent, NgFor, OperatorKeyComponent],
 })
 export class MainKeysComponent {
-  keys: string[] = ['7', '8', '9', '4', '5', '6', '1', '2', '3'];
+  keys: string[] = mainKeys;
   numRows: number[] = Array.from(Array(3).keys());
 }
