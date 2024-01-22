@@ -28,14 +28,13 @@ export class CalculatorService {
 
     if (key === ',') {
       //if there is already a comma in the string, dont add another
-      if (
-        this.currentCalculation.includes(',') &&
-        this.currentOperator === ''
-      ) {
+      if (this.currentNumber.includes(',')) {
         return;
       }
-      this.addNumberToCalculation(key);
-      return;
+      //if the current number is empty, add a 0 before the comma
+      if (this.currentNumber === '') {
+        this.addNumberToCalculation('0');
+      }
     }
 
     this.addNumberToCalculation(key);
@@ -53,18 +52,25 @@ export class CalculatorService {
   }
 
   addOperatorToCurrentCalculation(operator?: string) {
-    if (!operator) {
-      return;
-    }
-
-    if (this.haveTooManyKeys() && operator !== 'C' && operator !== '=') {
-      alert('Too many keys');
+    //if there is no operator or no number, do nothing
+    //maybe allow negative numbers first?
+    if (
+      !operator ||
+      (this.arrayToCalculate.length === 0 &&
+        !this.pressedNumber &&
+        operator !== '-')
+    ) {
       return;
     }
 
     const isEqualsOrClear = this.isOperatorCOrEquals(operator);
 
-    //if operator pressed replace the last operator with the new one
+    if (this.haveTooManyKeys() && !isEqualsOrClear) {
+      alert('Too many keys');
+      return;
+    }
+
+    //if an operator was pressed before, remove it and we add the new one at the end
     if (this.pressedOperator && !isEqualsOrClear && !this.pressedEquals) {
       this.currentCalculation = this.currentCalculation.slice(
         0,
@@ -74,20 +80,23 @@ export class CalculatorService {
 
     switch (operator) {
       case 'C':
-        this.currentCalculation = '';
-        this.calculatorResult = 0;
-        this.pressedOperator = false;
-        this.pressedNumber = false;
-        this.currentNumber = '';
-        this.arrayToCalculate = [];
-        this.pressedEquals = false;
+        this.clearEverything();
         return;
       case '=':
         if (this.currentNumber !== '') {
           this.arrayToCalculate.push(this.currentNumber);
           this.currentNumber = '';
         }
-        if (this.arrayToCalculate.length > 2) {
+        //if there is only one number in the array, return it
+        if (this.arrayToCalculate.length === 1) {
+          this.calculatorResult = parseFloat(
+            this.arrayToCalculate[0].replace(',', '.')
+          );
+          this.currentCalculation = this.arrayToCalculate[0];
+          this.pressedEquals = true;
+        }
+        //when more than 2 numbers are in the array, calculate the result
+        if (this.arrayToCalculate.length >= 2) {
           const calculationResult = this.calculateArray(this.arrayToCalculate);
           this.calculatorResult = parseFloat(calculationResult);
           this.arrayToCalculate = [calculationResult];
@@ -123,8 +132,20 @@ export class CalculatorService {
 
   handleEqualsPressed() {
     this.currentCalculation = '';
-    this.arrayToCalculate = [this.calculatorResult.toString()];
+    this.arrayToCalculate = [];
+    this.currentOperator = '';
     this.calculatorResult = 0;
+    this.pressedEquals = false;
+  }
+
+  clearEverything() {
+    this.currentCalculation = '';
+    this.calculatorResult = 0;
+    this.pressedOperator = false;
+    this.pressedNumber = false;
+    this.currentNumber = '';
+    this.currentOperator = '';
+    this.arrayToCalculate = [];
     this.pressedEquals = false;
   }
 
@@ -155,6 +176,12 @@ export class CalculatorService {
     }
 
     const hasSubtraction = calculation.indexOf('-');
+    //if the subtraction is at the beginning of the array, it means we are dealing with a negative number
+    //so we unite the first 2 elements and calculate the rest of the array
+    if (hasSubtraction === 0) {
+      calculation.splice(hasSubtraction, 2, calculation[0] + calculation[1]);
+      return this.calculateArray(calculation);
+    }
     if (hasSubtraction !== -1) {
       const result = this.calculateResult('-', hasSubtraction);
       if (result === undefined) {
